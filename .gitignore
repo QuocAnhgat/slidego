@@ -1,0 +1,7 @@
+node_modules/
+.netlify/
+.env
+netlify_dev.log
+debug_slide1.json
+
+massivefirewall-admindashboard/

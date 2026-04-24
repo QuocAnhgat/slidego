@@ -1,0 +1,45 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║         MASSIVE FIRE WALL v6.0 — Netlify Config          ║
+# ╚══════════════════════════════════════════════════════════╝
+
+[build]
+  publish = "public"
+
+# ─── FIREWALL EDGE FUNCTION ────────────────────────────────
+# Chặn và kiểm tra MỌI request vào toàn bộ domain
+[[edge_functions]]
+  function = "firewall"
+  path     = "/*"
+
+# ─── ENVIRONMENT VARIABLES ─────────────────────────────────
+# ⚠️ QUAN TRỌNG: Đặt các biến sau trong Netlify Dashboard:
+#    Site Settings → Environment Variables → Add variable
+#
+#  1. MFW_SECRET_KEY
+#     Chuỗi ngẫu nhiên ít nhất 32 ký tự (bắt buộc)
+#     Tạo: openssl rand -hex 32
+#
+#  2. ASSEMBLYAI_API_KEY
+#     API key từ https://www.assemblyai.com/
+#     Dùng cho Audio CAPTCHA (tính năng optional)
+#
+#  3. MFW_ADMIN_KEY
+#     Key để truy cập Admin Panel (legacy fallback)
+#     Tạo: openssl rand -hex 16
+#
+#  3b. MFW_ADMIN_USER  (default: mfw_commander)
+#      Tên đăng nhập Admin Panel
+#
+#  3c. MFW_ADMIN_PASS  (default: MFW@Secure#2026!xK9)
+#      Mật khẩu Admin Panel
+#
+#  4. MFW_ENVIRONMENT  (tự động theo context bên dưới)
+
+[context.production.environment]
+  MFW_ENVIRONMENT = "production"
+
+[context.deploy-preview.environment]
+  MFW_ENVIRONMENT = "preview"
+
+[context.branch-deploy.environment]
+  MFW_ENVIRONMENT = "staging"
